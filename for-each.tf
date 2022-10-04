@@ -39,7 +39,7 @@ resource "docker_image" "nginx" {
 }
 
 # Create a container
-resource "docker_container" "foo" {
+resource "docker_container" "nginx" {
   for_each = var.configuration
   image = each.value["image"]
   name  = each.value["instance_name"]
@@ -47,4 +47,8 @@ resource "docker_container" "foo" {
       internal = each.value["internal_port"]
       external = each.value["external_port"]
   }
+}
+
+output "docker_container" {
+  value = values(docker_container.nginx).*.name
 }
